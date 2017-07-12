@@ -2517,7 +2517,9 @@ struct GTY(()) ix86_frame
   bool save_regs_using_mov;
 };
 
-/* Machine specific frame tracking during prologue/epilogue generation.  */
+/* Machine specific frame tracking during prologue/epilogue generation.  All
+   values are positive, but since the x86 stack grows downward, are subtratced
+   from the CFA to produce a valid address.  */
 
 struct GTY(()) machine_frame_state
 {
@@ -2555,13 +2557,19 @@ struct GTY(()) machine_frame_state
 
   /* Indicates whether the stack pointer has been re-aligned.  When set,
      SP/FP continue to be relative to the CFA, but the stack pointer
-     should only be used for offsets >= sp_realigned_offset, while
-     the frame pointer should be used for offsets < sp_realigned_offset.
+     should only be used for offsets > sp_realigned_offset, while
+     the frame pointer should be used for offsets <= sp_realigned_fp_last.
      The flags realigned and sp_realigned are mutually exclusive.  */
   BOOL_BITFIELD sp_realigned : 1;
 
-  /* If sp_realigned is set, this is the offset from the CFA that the
-     stack pointer was realigned to.  */
+  /* If sp_realigned is set, this is the last valid offset from the CFA
+     that can be used for access with the frame pointer.  */
+  HOST_WIDE_INT sp_realigned_fp_last;
+
+  /* If sp_realigned is set, this is the offset from the CFA that the stack
+     pointer was realigned, and may or may not be equal to sp_realigned_fp_last.
+     Access via the stack pointer is only valid for offsets that are greater than
+     this value.  */
   HOST_WIDE_INT sp_realigned_offset;
 };
 
