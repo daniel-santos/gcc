@@ -2508,7 +2508,7 @@ struct GTY(()) ix86_frame
   HOST_WIDE_INT stack_pointer_offset;
   HOST_WIDE_INT hfp_save_offset;
   HOST_WIDE_INT reg_save_offset;
-  HOST_WIDE_INT stack_realign_allocate_offset;
+  HOST_WIDE_INT stack_realign_allocate;
   HOST_WIDE_INT stack_realign_offset;
   HOST_WIDE_INT sse_reg_save_offset;
 
