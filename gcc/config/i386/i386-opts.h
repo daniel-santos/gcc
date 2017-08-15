@@ -44,8 +44,8 @@ last_alg
 /* Available call abi.  */
 enum calling_abi
 {
-  SYSV_ABI = 0,
-  MS_ABI = 1
+  SYSV_ABI = 1,
+  MS_ABI = 2
 };
 
 enum fpmath_unit
